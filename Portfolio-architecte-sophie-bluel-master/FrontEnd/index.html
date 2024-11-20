@@ -10,21 +10,28 @@
       href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
       rel="stylesheet"
     />
+    <script
+      src="https://kit.fontawesome.com/fd95aab434.js"
+      crossorigin="anonymous"
+    ></script>
     <meta name="description" content="" />
     <link rel="stylesheet" href="./assets/style.css" />
     <script src="./assets/js/script.js" defer></script>
   </head>
   <body>
     <header>
-      <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
-      <nav>
-        <ul>
-          <li><a href="index.html#projet">projets</a></li>
-          <li><a href="index.html#contact">contact</a></li>
-          <li><a href="login.html">login</a></li>
-          <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
-        </ul>
-      </nav>
+      <div id="edition"></div>
+      <div class="navBar">
+        <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+        <nav>
+          <ul>
+            <li><a href="index.html#projet">projets</a></li>
+            <li><a href="index.html#contact">contact</a></li>
+            <li><a id="login-link" href="login.html">Login</a></li>
+            <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
+          </ul>
+        </nav>
+      </div>
     </header>
     <main>
       <section id="introduction">
@@ -51,7 +58,8 @@
         </article>
       </section>
       <section id="portfolio">
-        <h2>Mes Projets</h2>
+        <div id="title"><h2>Mes Projets</h2></div>
+        <!--faire le css -->
         <div id="categories"></div>
         <div class="gallery"></div>
       </section>
@@ -60,12 +68,12 @@
         <p>Vous avez un projet ? Discutons-en !</p>
         <form action="#" method="post">
           <label for="name">Nom</label>
-          <input type="text" name="name" id="name" />
+          <input type="text" name="name" id="name" class="name" />
           <label for="email">Email</label>
-          <input type="email" name="email" id="email" />
+          <input type="email" name="email" id="email" class="name" />
           <label for="message">Message</label>
           <textarea name="message" id="message" cols="30" rows="10"></textarea>
-          <input type="submit" value="Envoyer" />
+          <input type="submit" value="Envoyer" class="envoyer" />
         </form>
       </section>
     </main>
@@ -77,5 +85,60 @@
         </ul>
       </nav>
     </footer>
+    <!-- Fenêtre modale pour ajouter un projet -->
+    <div id="modal" class="modal">
+      <div class="elementsModal">
+        <i class="fa-solid fa-x"></i>
+        <h2>Galerie photo</h2>
+        <div class="projectModal"></div>
+        <hr />
+        <button class="btnAddImg">Ajouter une photo</button>
+      </div>
+      <div class="modalContent">
+        <div class="thumbnail-gallery" id="thumbnailGallery">
+          <!-- Les miniatures des images seront ajoutées dynamiquement ici -->
+        </div>
+        <span class="close">&times;</span>
+
+        <h3>Ajout photo</h3>
+        <form id="uploadForm">
+          <div class="addImageContainer">
+            <i class="fa-regular fa-image fa-5x"></i>
+            <label class="inputImage" for="inputImage">+ Ajouter photo</label>
+            <input
+              type="file"
+              id="inputImage"
+              name="image"
+              accept="image/*"
+              required
+            />
+            <img id="imagePreview" src="" alt="image a poster" />
+            <p id="detailImage">jpg.png : 4mo max</p>
+          </div>
+          <div class="inputInformation">
+            <label for="projectTitle">Titre</label>
+            <input
+              class="inputTilte"
+              type="text"
+              id="projectTitle"
+              name="title"
+              required
+            />
+          </div>
+          <div class="inputInformation">
+            <label for="category">Catégorie</label>
+            <select id="category" name="category" required>
+              <option value="1">Tous</option>
+              <option value="2">Objets</option>
+              <option value="3">Appartements</option>
+              <option value="4">Hotels & restaurants</option>
+            </select>
+          </div>
+          <div class="trait"></div>
+
+          <button class="buttonValider" type="submit">Valider</button>
+        </form>
+      </div>
+    </div>
   </body>
 </html>
