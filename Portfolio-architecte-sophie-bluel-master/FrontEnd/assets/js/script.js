@@ -6,6 +6,7 @@ const modal = document.getElementById("modal");
 const elementsModal = document.getElementsByClassName("elementsModal")[0];
 const modalContent = document.getElementsByClassName("modalContent")[0];
 const closeModalBtn = document.getElementsByClassName("close")[0];
+const closeModalBtnTwo = document.getElementsByClassName("closeTwo")[0];
 const uploadForm = document.getElementById("uploadForm");
 
 // Fonction pour récupérer les travaux depuis l'API
@@ -120,15 +121,24 @@ async function displayThumbnails() {
     // Ajouter un événement click pour afficher ou interagir avec l'image
     img.addEventListener("click", () => {
       alert(`Vous avez cliqué sur : ${work.title}`);
-      // Ici, vous pouvez ajouter des fonctionnalités supplémentaires, comme sélectionner l'image ou afficher un aperçu plus grand
     });
 
     thumbnailGallery.appendChild(img);
   });
 }
-
+displayThumbnails();
 // Gestion de la fermeture de la modale
 closeModalBtn.addEventListener("click", () => {
+  modal.style.display = "none";
+});
+window.addEventListener("click", (event) => {
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
+});
+
+// Gestion de la fermeture de la deuxième modale
+closeModalBtnTwo.addEventListener("click", () => {
   modal.style.display = "none";
 });
 
