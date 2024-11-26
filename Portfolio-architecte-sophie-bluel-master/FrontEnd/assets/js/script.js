@@ -26,6 +26,7 @@ function addWorkToGallery(work) {
   const figure = document.createElement("figure");
   const img = document.createElement("img");
   const figcaption = document.createElement("figcaption");
+  const deleteButton = document.createElement("button");
 
   img.src = work.imageUrl;
   figcaption.textContent = work.title;
@@ -87,6 +88,7 @@ if (localStorage.getItem("isLoggedIn") === "true") {
 
   button.textContent = " modifier";
   button.classList.add("editButton");
+  categories.style.display = "none";
   icon.classList.add("fa-regular", "fa-pen-to-square");
 
   editProject.appendChild(button);
@@ -99,12 +101,12 @@ if (localStorage.getItem("isLoggedIn") === "true") {
 
 function displayModalContent() {
   const btnAddImg = document.getElementsByClassName("btnAddImg")[0];
+  const elementsModal = document.querySelector(".elementsModal");
   btnAddImg.addEventListener("click", () => {
     elementsModal.style.display = "none";
     modalContent.style.display = "flex";
   });
 }
-
 displayModalContent();
 
 async function displayThumbnails() {
@@ -113,38 +115,76 @@ async function displayThumbnails() {
   thumbnailGallery.innerHTML = ""; // Vide les anciennes miniatures
 
   works.forEach((work) => {
+    const imgContainer = document.createElement("div");
+    imgContainer.classList.add("imgContainer");
     const img = document.createElement("img");
     img.src = work.imageUrl;
     img.alt = work.title;
     img.title = work.title;
 
-    // Ajouter un événement click pour afficher ou interagir avec l'image
-    img.addEventListener("click", () => {
-      alert(`Vous avez cliqué sur : ${work.title}`);
-    });
+    const deleteIcon = document.createElement("i");
+    deleteIcon.classList.add("fa-solid", "fa-trash-can", "delete-icon");
+    deleteIcon.id = work.id;
 
-    thumbnailGallery.appendChild(img);
+    thumbnailGallery.appendChild(imgContainer);
+    imgContainer.appendChild(img);
+    imgContainer.appendChild(deleteIcon);
   });
+
+  deleteProject();
 }
 displayThumbnails();
+
+function deleteProject() {
+  const allDeleteIcons = document.querySelectorAll(".delete-icon");
+
+  allDeleteIcons.forEach((icon) => {
+    icon.addEventListener("click", () => {
+      const workId = icon.id; // Récupération de l'ID du travail
+      const init = {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.token,
+        },
+      };
+
+      // Requête DELETE
+      fetch("http://localhost:5678/api/works/" + workId, init)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("La suppression n'a pas été possible");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          alert("La suppression a bien été effectuée");
+          console.log("Réponse de l'API :", data);
+          displayThumbnails();
+          displayWorks();
+        })
+        .catch((error) => {
+          console.error("Erreur :", error.message);
+          alert("Vous avez supprimé l'image.");
+        });
+    });
+  });
+}
+
+// Appel de la fonction
+deleteProject();
+
 // Gestion de la fermeture de la modale
-closeModalBtn.addEventListener("click", () => {
+function closeModal() {
   modal.style.display = "none";
-});
-window.addEventListener("click", (event) => {
-  if (event.target === modal) {
-    modal.style.display = "none";
-  }
-});
+}
 
-// Gestion de la fermeture de la deuxième modale
-closeModalBtnTwo.addEventListener("click", () => {
-  modal.style.display = "none";
-});
+closeModalBtn.addEventListener("click", closeModal);
+closeModalBtnTwo.addEventListener("click", closeModal);
 
 window.addEventListener("click", (event) => {
   if (event.target === modal) {
-    modal.style.display = "none";
+    closeModal();
   }
 });
 
@@ -175,12 +215,14 @@ uploadForm.addEventListener("submit", async (event) => {
       },
     });
 
-    if (response.ok) {
-      alert("Projet ajouté avec succès !");
-      modal.style.display = "none";
-      displayWorks();
-    } else {
-      alert("Erreur lors de l'ajout du projet");
+    if (!response.ok) {
+      if (response.status === 401) {
+        alert("Token expiré ou non valide. Veuillez vous reconnecter.");
+        localStorage.removeItem("token");
+        window.location.href = "login.html"; // rediriger vers la page de login
+      } else {
+        alert("Erreur lors de l'ajout du projet");
+      }
     }
   } catch (error) {
     console.error("Erreur:", error);
@@ -238,43 +280,15 @@ function logoutUser() {
 
 // Initialisation du statut de connexion
 checkLoginStatus();
-// Fonction pour ajouter un travail à la galerie
-function addWorkToGallery(work) {
-  const figure = document.createElement("figure");
-  const img = document.createElement("img");
-  const figcaption = document.createElement("figcaption");
-
-  img.src = work.imageUrl;
-  figcaption.textContent = work.title;
-
-  figure.appendChild(img);
-  figure.appendChild(figcaption);
-  gallery.appendChild(figure);
+// Button de retour
+function showElementsModal() {
+  elementsModal.style.display = "flex"; // Affiche elementsModal
+  modalContent.style.display = "none"; // Cache modalContent
 }
 
-// Fonction pour supprimer un projet
-async function deleteWork(workId) {
-  const confirmDelete = confirm("Voulez-vous vraiment supprimer ce projet ?");
-  if (!confirmDelete) return;
-
-  try {
-    const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${localStorage.token}`,
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (response.ok) {
-      alert("Projet supprimé avec succès !");
-      // Mise à jour de la galerie
-      displayWorks();
-    } else {
-      alert("Erreur lors de la suppression du projet");
-    }
-  } catch (error) {
-    console.error("Erreur :", error);
-    alert("Une erreur est survenue lors de la suppression");
-  }
+// Ajout de l'événement clic sur le bouton
+if (backButton) {
+  backButton.addEventListener("click", showElementsModal);
+} else {
+  console.warn("Bouton retour non trouvé");
 }

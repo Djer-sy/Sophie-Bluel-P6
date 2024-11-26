@@ -36,7 +36,7 @@
     <main>
       <section id="introduction">
         <figure>
-          <img src="./assets/images/sophie-bluel.png" alt="" />
+          <img src="./assets/images/sophie-bluel.png" alt="Sophie Bluel" />
         </figure>
         <article>
           <h2>Designer d'espace</h2>
@@ -59,7 +59,6 @@
       </section>
       <section id="portfolio">
         <div id="title"><h2>Mes Projets</h2></div>
-        <!--faire le css -->
         <div id="categories"></div>
         <div class="gallery"></div>
       </section>
@@ -88,17 +87,22 @@
     <!-- Fenêtre modale pour ajouter un projet -->
     <div id="modal" class="modal">
       <div class="elementsModal">
+        <div class="modal-item"></div>
         <span class="close">&times;</span>
-        <h2>Galerie photo</h2>
+        <h3>Galerie photo</h3>
         <div class="projectModal"></div>
         <div class="thumbnail-gallery" id="thumbnailGallery">
           <!-- Les miniatures des images seront ajoutées dynamiquement ici -->
         </div>
+        <div class="trait"></div>
         <hr />
         <button class="btnAddImg">Ajouter une photo</button>
       </div>
       <div class="modalContent">
-        <span class="closeTwo">&times;</span>
+        <div class="backClose">
+          <span class="closeTwo">&times;</span>
+          <a id="backButton"><i class="fa-solid fa-arrow-left"></i></a>
+        </div>
         <h3>Ajout photo</h3>
         <form id="uploadForm">
           <div class="addImageContainer">
@@ -111,7 +115,7 @@
               accept="image/*"
               required
             />
-            <img id="imagePreview" src="" alt="image a poster" />
+            <img id="imagePreview" src="#" alt="image a poster" />
             <p id="detailImage">jpg.png : 4mo max</p>
           </div>
           <div class="inputInformation">
@@ -127,14 +131,13 @@
           <div class="inputInformation">
             <label for="category">Catégorie</label>
             <select id="category" name="category" required>
-              <option value="1">Tous</option>
-              <option value="2">Objets</option>
-              <option value="3">Appartements</option>
-              <option value="4">Hotels & restaurants</option>
+              <option value="">Tous</option>
+              <option value="1">Objets</option>
+              <option value="2">Appartements</option>
+              <option value="3">Hotels & restaurants</option>
             </select>
           </div>
-          <div class="trait"></div>
-
+          <div class="traitTwo"></div>
           <button class="buttonValider" type="submit">Valider</button>
         </form>
       </div>
