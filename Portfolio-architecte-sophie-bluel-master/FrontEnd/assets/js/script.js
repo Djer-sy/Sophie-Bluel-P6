@@ -78,6 +78,8 @@ if (localStorage.token) {
   editionIcon.classList.add("fa-regular", "fa-pen-to-square");
   editionBanner.appendChild(editionIcon);
   editionBanner.appendChild(editionTexte);
+} else {
+  edition.style.display = "none";
 }
 
 // Gestion de la modale pour ajouter un projet
