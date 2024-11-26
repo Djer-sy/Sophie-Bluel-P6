@@ -249,6 +249,8 @@ nav ul {
 	align-items: center;
 	list-style-type: none;
 	text-decoration: none;
+	flex-direction: row;
+	justify-content: flex-end;
 }
 
 nav li {
