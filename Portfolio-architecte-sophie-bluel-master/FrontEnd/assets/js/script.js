@@ -161,12 +161,10 @@ function deleteProject() {
         })
         .then((data) => {
           alert("La suppression a bien été effectuée");
-          console.log("Réponse de l'API :", data);
           displayThumbnails();
           displayWorks();
         })
         .catch((error) => {
-          console.error("Erreur :", error.message);
           alert("Vous avez supprimé l'image.");
         });
     });
@@ -190,13 +188,26 @@ window.addEventListener("click", (event) => {
   }
 });
 
+async function addCategoriesModal() {
+  const categorySelect = document.getElementById("category");
+
+  const categoriesModal = await getCategories();
+  categoriesModal.forEach((category) => {
+    const option = document.createElement("option");
+    option.value = category.id;
+    option.textContent = category.name;
+    categorySelect.appendChild(option);
+  });
+}
+
+addCategoriesModal();
+
 // Gestion du formulaire d'ajout de projet
 uploadForm.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   const imageInput = document.getElementById("inputImage");
   const title = document.getElementById("projectTitle").value;
-  const category = document.getElementById("category").value;
 
   if (imageInput.files.length === 0) {
     alert("Veuillez sélectionner une image");
@@ -205,7 +216,7 @@ uploadForm.addEventListener("submit", async (event) => {
 
   const formData = new FormData();
   formData.append("title", title);
-  formData.append("category", category);
+  formData.append("category", category.value);
   formData.append("image", imageInput.files[0]);
 
   try {
@@ -227,7 +238,6 @@ uploadForm.addEventListener("submit", async (event) => {
       }
     }
   } catch (error) {
-    console.error("Erreur:", error);
     alert("Une erreur est survenue");
   }
 });
@@ -291,6 +301,4 @@ function showElementsModal() {
 // Ajout de l'événement clic sur le bouton
 if (backButton) {
   backButton.addEventListener("click", showElementsModal);
-} else {
-  console.warn("Bouton retour non trouvé");
 }

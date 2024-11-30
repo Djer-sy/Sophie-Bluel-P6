@@ -144,6 +144,7 @@ body {
 	margin: auto;
 	font-family: 'Work Sans';
 	font-size: 14px;
+	background-color: #FFFEF8;
 }
 
 #edition {
@@ -242,7 +243,17 @@ h2 {
 .envoyer {
 	margin: 2em auto;
 	margin-left: 65px;
+	cursor: pointer;
 }
+
+.envoyer:hover {
+	background-color: #B1663C;
+	color: #ffffff;
+	border-color: #B1663C;
+	transition: background-color 0.4s ease, color 0.4s ease;
+	cursor: pointer;
+}
+
 
 nav ul {
 	display: flex;
@@ -263,6 +274,7 @@ nav a {
 	list-style-type: none;
 	text-decoration: none;
 	color: black;
+	cursor: pointer
 }
 
 li a:hover {
@@ -350,6 +362,20 @@ button:hover {
 	background-color: #aaa;
 	border: 0px;
 	cursor: pointer;
+}
+
+.connection {
+	background-color: #1D6154;
+	color: #ffffff;
+	border-color: #1D6154;
+	transition: background-color 0.4s ease, color 0.4s ease;
+	cursor: pointer;
+}
+
+.connection:hover {
+	background-color: #B1663C;
+	color: #ffffff;
+	border-color: #B1663C;
 }
 
 .trait {
@@ -510,13 +536,12 @@ footer nav ul {
 
 .close {
 	color: #aaa;
-	float: right;
+	top: 20px;
+	position: absolute;
+	right: 2px;
 	font-size: 28px;
 	font-weight: bold;
-	display: flex;
-	flex-direction: row-reverse;
-	width: 90%;
-	margin-top: 20px;
+
 }
 
 .close:hover,
@@ -565,6 +590,8 @@ footer nav ul {
 	align-content: center;
 	background-color: white;
 	max-width: 665px;
+	padding-top: 50px;
+	position: relative;
 }
 
 .imgContainer {
